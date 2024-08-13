@@ -1,0 +1,33 @@
+class Solution {
+    public String gcdOfStrings(String str1, String str2) {
+        int len1 = str1.length();
+        int len2 = str2.length();
+        int gcdLength = gcd(len1, len2);
+        String candidate = str1.substring(0, gcdLength);
+
+        if (checkDivisibility(str1, candidate) && checkDivisibility(str2, candidate)) {
+            return candidate;
+        } else {
+            return "";
+        }
+    }
+
+    private static int gcd(int a, int b) {
+        if (b == 0) {
+            return a;
+        }
+        return gcd(b, a % b);
+    }
+      private static boolean checkDivisibility(String s, String t) {
+        int lenS = s.length();
+        int lenT = t.length();
+        if (lenS % lenT != 0) {
+            return false;
+        }
+        StringBuilder repeatedT = new StringBuilder();
+        for (int i = 0; i < lenS / lenT; i++) {
+            repeatedT.append(t);
+        }
+        return repeatedT.toString().equals(s);
+    } 
+    }
