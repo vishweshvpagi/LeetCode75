@@ -1,0 +1,33 @@
+class Solution {
+    public int maxVowels(String s, int k) {
+        // Define a set of vowel characters for quick lookup
+        Set<Character> vowels = new HashSet<>(Set.of('a', 'e', 'i', 'o', 'u'));
+
+        // Initialize variables
+        int maxVowelsCount = 0;
+        int currentVowelsCount = 0;
+
+        // Calculate vowels in the initial window of size k
+        for (int i = 0; i < k; i++) {
+            if (vowels.contains(s.charAt(i))) {
+                currentVowelsCount++;
+            }
+        }
+        maxVowelsCount = currentVowelsCount;
+
+        // Slide the window across the string
+        for (int i = k; i < s.length(); i++) {
+            // Remove the impact of the outgoing character
+            if (vowels.contains(s.charAt(i - k))) {
+                currentVowelsCount--;
+            }
+            // Add the impact of the incoming character
+            if (vowels.contains(s.charAt(i))) {
+                currentVowelsCount++;
+            }
+            // Update the maximum number of vowels found
+            maxVowelsCount = Math.max(maxVowelsCount, currentVowelsCount);
+        }
+
+        return maxVowelsCount;
+    }}

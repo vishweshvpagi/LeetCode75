@@ -1,0 +1,35 @@
+class Solution {
+    public String decodeString(String s) {
+         Stack<StringBuilder> stringStack = new Stack<>();
+        Stack<Integer> countStack = new Stack<>();
+        StringBuilder currentStr = new StringBuilder();
+        int k = 0;
+
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                // Build the number k (could be multiple digits)
+                k = k * 10 + (c - '0');
+            } else if (c == '[') {
+                // Push the current string and count onto their respective stacks
+                countStack.push(k);
+                stringStack.push(currentStr);
+                // Reset the current string and k
+                currentStr = new StringBuilder();
+                k = 0;
+            } else if (c == ']') {
+                // Pop the string and count from their stacks and decode
+                StringBuilder decodedStr = stringStack.pop();
+                int repeatTimes = countStack.pop();
+                for (int i = 0; i < repeatTimes; i++) {
+                    decodedStr.append(currentStr);
+                }
+                currentStr = decodedStr;
+            } else {
+                // Append the character to the current string
+                currentStr.append(c);
+            }
+        }
+
+        return currentStr.toString();
+    }
+}

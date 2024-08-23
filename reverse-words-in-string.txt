@@ -1,0 +1,30 @@
+class Solution {
+    public String reverseWords(String s) {
+        // Trim leading and trailing spaces, then split by one or more spaces
+        String[] wordsArray = s.trim().split("\\s+");
+        
+        // Convert the array to a list for easy manipulation
+        List<String> wordsList = Arrays.asList(wordsArray);
+        
+        // Reverse the list of words
+        Collections.reverse(wordsList);
+        
+        // Join the reversed list into a single string with spaces in between
+        return String.join(" ", wordsList);
+    }
+}
+
+
+///without the use of inbuilt functionsclass Solution {
+    public String reverseWords(String s) {
+        String [] words = s.split(" ");
+        StringBuilder builder = new StringBuilder();
+        for (int x=words.length-1;x>=0;x--){
+            String sub = words[x];
+            if (!sub.trim().isEmpty()){
+                builder.append(sub).append(' ');
+            }
+        }
+        return builder.toString().trim();
+    }
+}

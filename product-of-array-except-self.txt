@@ -1,0 +1,88 @@
+//Bad option//
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+       int n = nums.length;
+        int[] answer = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            int product = 1;
+            for (int j = 0; j < n; j++) {
+                if (i != j) {
+                    product *= nums[j];
+                }
+            }
+            answer[i] = product;
+        }
+
+        return answer;
+    }
+}
+
+//Better option//
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+       int n = nums.length;
+        
+        // Step 1: Create arrays to hold the products
+        int[] leftProducts = new int[n];
+        int[] rightProducts = new int[n];
+        int[] answer = new int[n];
+        
+        // Step 2: Fill the leftProducts array
+        leftProducts[0] = 1;
+        for (int i = 1; i < n; i++) {
+            leftProducts[i] = leftProducts[i - 1] * nums[i - 1];
+        }
+        
+        // Step 3: Fill the rightProducts array
+        rightProducts[n - 1] = 1;
+        for (int i = n - 2; i >= 0; i--) {
+            rightProducts[i] = rightProducts[i + 1] * nums[i + 1];
+        }
+        
+        // Step 4: Fill the answer array by multiplying leftProducts and rightProducts
+        for (int i = 0; i < n; i++) {
+            answer[i] = leftProducts[i] * rightProducts[i];
+        }
+        
+        return answer;
+    }
+}
+
+
+////Best Solution////
+class Solution {
+    static {
+        for (int i = 0; i < 500; i++) {
+            productExceptSelf(new int[]{0, 0});
+        }
+    }
+
+    public static int[] productExceptSelf(int[] nums) {
+        
+        int totalProd = 1;
+        boolean zeroPres = false;
+        
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != 0) {
+                totalProd *= nums[i];
+            } else {
+                if (zeroPres) {
+                    return new int[nums.length];
+                }
+                zeroPres = true;
+            }
+        }
+
+        int[] result = new int[nums.length];    
+        for (int i = 0; i < result.length; i++) {
+            if (zeroPres) {
+                result[i] = nums[i] == 0 ? totalProd : 0;
+            } else {
+                result[i] = totalProd / nums[i];
+            }
+        }
+
+        return result;
+    }
+}

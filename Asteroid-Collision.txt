@@ -1,0 +1,62 @@
+import java.util.Stack;
+
+class Solution {
+    public int[] asteroidCollision(int[] asteroids) {
+        Stack<Integer> stack = new Stack<>();
+        
+        for (int asteroid : asteroids) {
+            boolean destroyed = false;
+            
+            while (!stack.isEmpty() && asteroid < 0 && stack.peek() > 0) {
+                int top = stack.peek();
+                if (top < -asteroid) {
+                    stack.pop(); // Remove the smaller asteroid
+                } else if (top == -asteroid) {
+                    stack.pop(); // Both asteroids are equal, destroy both
+                    destroyed = true;
+                    break;
+                } else {
+                    // The top asteroid is larger, current one is destroyed
+                    destroyed = true;
+                    break;
+                }
+            }
+            
+            if (!destroyed && (stack.isEmpty() || asteroid > 0 || stack.peek() < 0)) {
+                stack.push(asteroid);
+            }
+        }
+        
+        // Convert stack to result array
+        int[] result = new int[stack.size()];
+        for (int i = stack.size() - 1; i >= 0; i--) {
+            result[i] = stack.pop();
+        }
+        
+        return result;
+    }
+}
+
+
+//This Java code is a solution to the "Asteroid Collision" problem, which is a popular problem on LeetCode. Here's a breakdown of what the code does:
+
+Problem Statement: Given an array of integers asteroids, where each integer represents the size of an asteroid, and a positive size indicates a moving asteroid to the right, while a negative size indicates a moving asteroid to the left. If two asteroids collide, the larger one will explode, and the smaller one will be destroyed. If both asteroids are of the same size, they will both be destroyed. The goal is to return the remaining asteroids after all collisions have occurred.
+
+Code Explanation:
+
+The code uses a Stack data structure to keep track of the asteroids. The stack is used to simulate the collision process.
+
+Here's a step-by-step breakdown of the code:
+
+The asteroidCollision method takes an array of integers asteroids as input and returns an array of integers representing the remaining asteroids after all collisions have occurred.
+A Stack object stack is created to store the asteroids.
+The code iterates through the asteroids array using a for-each loop.
+For each asteroid, the code checks if it's moving to the left (i.e., its size is negative) and if the top of the stack is not empty and its size is positive. If both conditions are true, it means a collision is possible.
+The code then enters a while loop that continues until the collision is resolved. In each iteration, it checks the top of the stack and the current asteroid:
+If the top of the stack is smaller than the absolute value of the current asteroid, it means the top asteroid is destroyed, so it's removed from the stack (stack.pop()).
+If the top of the stack is equal to the absolute value of the current asteroid, both asteroids are destroyed, so the top asteroid is removed from the stack, and the current asteroid is marked as destroyed (destroyed = true).
+If the top of the stack is larger than the absolute value of the current asteroid, the current asteroid is destroyed, and the loop breaks.
+If the current asteroid is not destroyed and the stack is empty or the top of the stack is moving in the same direction as the current asteroid (i.e., both are positive or both are negative), the current asteroid is added to the stack (stack.push(asteroid)).
+After iterating through all asteroids, the code converts the stack to an array result by popping all elements from the stack and storing them in the array in reverse order.
+The result array is returned as the final output.
+The time complexity of this solution is O(n), where n is the length of the asteroids array, since we iterate through the array once and perform a constant amount of work for each asteroid. The space complexity is O(n) as well, since we use a stack to store the asteroids.

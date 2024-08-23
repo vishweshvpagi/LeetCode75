@@ -1,0 +1,48 @@
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        int lens = s.length();
+        int lent = t.length();
+        int i = 0, j = 0;
+
+        // Traverse both strings
+        while (i < lens && j < lent) {
+            // If characters match, move pointer in s
+            if (s.charAt(i) == t.charAt(j)) {
+                i++;
+            }
+            // Always move pointer in t
+            j++;
+        }
+
+        // If we've traversed all of s, it is a subsequence of t
+        return i == lens;
+    }
+}
+
+
+///better choice which uses recursion
+
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        int n1 = s.length();
+        int n2 = t.length();
+        return helper(s, t, n1, n2);
+    }
+
+    private boolean helper(String s, String t, int i, int j){
+        if(i == 0){
+            return true;
+        }
+
+        if(j == 0){
+            return false;
+        }
+
+        if(s.charAt(i-1) == t.charAt(j-1)){
+            return helper(s, t, i-1, j-1);
+        }
+        else{
+            return helper(s, t, i, j - 1);
+        }
+    }
+}

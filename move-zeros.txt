@@ -1,0 +1,40 @@
+//2ms//
+
+class Solution {
+    public void moveZeroes(int[] nums) {
+       int lastNonZeroFoundAt = 0;
+
+        // Move all non-zero elements to the beginning of the array
+        for (int current = 0; current < nums.length; current++) {
+            if (nums[current] != 0) {
+                nums[lastNonZeroFoundAt] = nums[current];
+                lastNonZeroFoundAt++;
+            }
+        }
+
+        // Fill the remaining positions with zeros
+        for (int i = lastNonZeroFoundAt; i < nums.length; i++) {
+            nums[i] = 0;
+        }
+    }
+}
+
+
+
+
+//1ms solution 
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int k=0;
+        int size=nums.length;
+        for(int i=0;i<size;i++){
+            if(nums[i]!=0){
+                nums[k]=nums[i];
+                k++;
+            }
+        }
+         
+        for(int i=size-1;i>=k;i--){
+            nums[i]=0;
+    
+        }}}

@@ -1,0 +1,17 @@
+//starts from zero have to add each array element to get the altitude from 0. the method is called prefox sum which intialises a new array = array[i-1]+ mainarray[i-1]  this way we can find out the change in sum and using a swap we can find out the maximum altitude
+
+int n = gain.length;
+        int[] altitude = new int[n + 1]; // Array to store the altitude at each point
+        altitude[0] = 0; // Starting altitude
+
+        int max = altitude[0]; // Initialize max altitude
+        
+        // Compute altitudes using prefix sum concept
+        for (int i = 1; i <= n; i++) {
+            altitude[i] = altitude[i - 1] + gain[i - 1];
+            if (altitude[i] > max) {
+                max = altitude[i];
+            }
+        }
+
+        return max;

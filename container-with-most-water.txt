@@ -1,0 +1,50 @@
+//best approach
+class Solution {
+    public int maxArea(int[] height) {
+        int max = 0;
+        int l = 0;
+        int r = height.length - 1;
+        int calc = 0;
+        int minNum = 0;
+        
+        while (l < r) {
+            minNum = Math.min(height[l], height[r]);
+            calc = (minNum) * (r - l);
+            max = Math.max(max, calc);
+
+            // Skip all the values which are less than or equal to minNum
+            while (l < r && height[l] <= minNum) l++;
+            while (l < r && height[r] <= minNum) r--;
+        }
+        
+        return max;
+    }
+}
+
+//better approach 
+class Solution {
+    public int maxArea(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+        int maxArea = 0;
+
+        while (left < right) {
+            // Calculate the height and width
+            int h = Math.min(height[left], height[right]);
+            int w = right - left;
+            // Calculate the area
+            int currentArea = h * w;
+            // Update maxArea if the current area is larger
+            maxArea = Math.max(maxArea, currentArea);
+
+            // Move the pointer pointing to the shorter line inward
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return maxArea;
+    }
+}

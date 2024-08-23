@@ -1,0 +1,72 @@
+//using two queues and comparing the fronts of them until they both die
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Solution {
+    public String predictPartyVictory(String senate) {
+        Queue<Integer> rad = new LinkedList<>();
+        Queue<Integer> dir = new LinkedList<>();
+        int n = senate.length();
+
+        // Add all senators to their respective queues with their index
+        for (int i = 0; i < n; i++) {
+            if (senate.charAt(i) == 'R') {
+                rad.offer(i);
+            } else {
+                dir.offer(i);
+            }
+        }
+
+        // Process the senate string
+        while (!rad.isEmpty() && !dir.isEmpty()) {
+            int rIndex = rad.poll();
+            int dIndex = dir.poll();
+
+            // The senator with the lower index acts first
+            if (rIndex < dIndex) {
+                rad.offer(rIndex + n);  // Radiant senator acts again later
+            } else {
+                dir.offer(dIndex + n);  // Dire senator acts again later
+            }
+        }
+
+        // The queue that still has senators determines the winner
+        return rad.isEmpty() ? "Dire" : "Radiant";
+    }
+
+   
+}
+
+//best code 1ms 
+class Solution {
+    public String predictPartyVictory(String senate) {
+    char[] arr = senate.toCharArray();
+    return voting(arr, 0);
+  }
+
+  public String voting(char[] senate, int vote) {
+    int d = 0, r = 0;
+
+    for (int i = 0; i < senate.length; i++) {
+      if (senate[i] == 'R') {
+        if (vote >= 0) {
+          r++;
+        } else {
+          senate[i] = '0';
+        }
+        vote++;
+      } else if (senate[i] == 'D') {
+        if (vote <= 0) {
+          d++;
+        } else {
+          senate[i] = '0';
+        }
+        vote--;
+      }
+    }
+    if (d != 0 && r == 0) return "Dire";
+    if (r != 0 && d == 0) return "Radiant";
+    return voting(senate, vote);
+  }
+}
